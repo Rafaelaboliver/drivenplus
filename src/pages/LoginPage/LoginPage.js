@@ -4,10 +4,12 @@ import { useState, useContext } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import LoginImage from '../../assets/LoginPage.png'
+import { UserInfoContext } from '../../context/UserInfoContext';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const {setToken} = useContext(UserInfoContext)
     const navigate = useNavigate();
 
     function loginDriven (e) {
@@ -20,6 +22,7 @@ export default function LoginPage() {
         const promise = axios.post(URL, body);
         promise.then((res) => {
             console.log(res.data);
+            setToken(res.data.token);
             const userData = JSON.stringify(res.data);
 
             localStorage.setItem('userData', userData)

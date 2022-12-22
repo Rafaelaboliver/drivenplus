@@ -1,6 +1,7 @@
 import { SubscriptionUnitContainer, Header, PlanInformation, Benefits, BenefitsText, PriceBox, PriceBoxHeader, PaymentData, UpperBoxes, LowerBoxes } from './SubscriptionIdCss';
-import Logo from '../../assets/LoginPage.png'
-import { useState } from 'react';
+import Logo from '../../assets/LoginPage.png';
+import { UserInfoContext } from '../../context/UserInfoContext';
+import { useState, useContext } from 'react';
 
 
 export default function SubscriptionId() {
@@ -41,24 +42,24 @@ export default function SubscriptionId() {
 
             <PaymentData>
                 <UpperBoxes>
-
+                    <input
+                        id='name'
+                        type='text'
+                        value={name}
+                        placeholder='Nome impresso no cartão'
+                        onChange={e => setName(e.target.value)}
+                        required
+                    />
+                    <input
+                        id='cardNumber'
+                        type='number'
+                        value={cardNumber}
+                        placeholder='Digitos do cartão'
+                        onChange={e => setCardNumber(e.target.value)}
+                        required
+                    />
                 </UpperBoxes>
-                <input
-                    id='name'
-                    type='text'
-                    value={name}
-                    placeholder='Nome impresso no cartão'
-                    onChange={e => setName(e.target.value)}
-                    required
-                />
-                <input
-                    id='cardNumber'
-                    type='number'
-                    value={cardNumber}
-                    placeholder='Digitos do cartão'
-                    onChange={e => setCardNumber(e.target.value)}
-                    required
-                />
+
                 <LowerBoxes>
                     <input
                         id='securityCode'
