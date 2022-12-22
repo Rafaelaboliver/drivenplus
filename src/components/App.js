@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from '../pages/LoginPage/LoginPage'
 import SignUpPage from '../pages/SignUpPage/SignUpPage'
-import SubscriptionsPage from '../pages/SubscriptionsPage'
+import SubscriptionsPage from '../pages/SubscriptionsPage/SubscriptionsPage'
 import HomePage from '../pages/HomePage/HomePage'
 
 export default function App() {
