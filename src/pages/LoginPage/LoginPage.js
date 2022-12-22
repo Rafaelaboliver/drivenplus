@@ -20,6 +20,9 @@ export default function LoginPage() {
         const promise = axios.post(URL, body);
         promise.then((res) => {
             console.log(res.data);
+            const userData = JSON.stringify(res.data);
+
+            localStorage.setItem('userData', userData)
 
             if (res.data.membership === null) {
                 navigate('/subscriptions');
