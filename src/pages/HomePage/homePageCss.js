@@ -5,7 +5,7 @@ display: flex;
 flex-direction: column;
 margin: auto;
 width: 375px;
-height: 100vh;
+height: 100%;
 background-color: #000;
 `
 export const Header = styled.div`

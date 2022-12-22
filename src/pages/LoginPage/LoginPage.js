@@ -2,19 +2,44 @@ import { LoginContainer, TextContainer, DataContainer } from './loginPageCss';
 import { useState, useContext } from 'react';
 //importar o arquivo do context
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LoginImage from '../../assets/LoginPage.png'
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+
+    function loginDriven (e) {
+        e.preventDefault();
+
+        const URL = 'https://mock-api.driven.com.br/api/v4/driven-plus/auth/login';
+        const body = { email: email, password: password };
+
+
+        const promise = axios.post(URL, body);
+        promise.then((res) => {
+            console.log(res.data);
+
+            if (res.data.membership === null) {
+                navigate('/subscriptions');
+            } else {
+                navigate('/home');
+            }
+            
+        });
+        promise.catch((err) => {
+            alert(err.response.data.message);
+        });
+
+    }
 
     return (
         <LoginContainer>
             <img src={LoginImage} alt='logo' />
 
             <DataContainer>
-                <form >
+                <form onSubmit={loginDriven}>
                     <input
                         id='email'
                         type='email'
@@ -38,7 +63,9 @@ export default function LoginPage() {
             </DataContainer>
 
             <TextContainer>
-                <h3>Não tem conta? Cadastre-se!</h3>
+                <Link to='/sign-up'>
+                    <h3>Não tem conta? Cadastre-se!</h3>
+                </Link>
             </TextContainer>
         </LoginContainer>
     )

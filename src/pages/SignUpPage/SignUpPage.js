@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
-import {SignUpContainer, DataContainer, TextContainer } from './signUpPageCss'
+import { SignUpContainer, DataContainer, TextContainer } from './signUpPageCss'
 
 export default function SignUpPage() {
     const [email, setEmail] = useState('');
@@ -10,11 +10,28 @@ export default function SignUpPage() {
     const [cpf, setCPF] = useState('');
     const navigate = useNavigate();
 
+    function createAccount(e) {
+        e.preventDefault();
+        const URL = 'https://mock-api.driven.com.br/api/v4/driven-plus/auth/sign-up';
+        const body = { email: email, name: name, cpf: cpf, password: password };
+
+
+        const promise = axios.post(URL, body);
+        promise.then((res) => {
+            alert('Cadastro realizado com sucesso!');
+            console.log(res.data);
+            navigate('/');
+        });
+        promise.catch((err) => {
+            alert(err.response.data.message);
+        });
+    }
+
     return (
         <SignUpContainer>
 
             <DataContainer>
-                <form >
+                <form onSubmit={createAccount}>
                     <input
                         id='name'
                         type='text'
