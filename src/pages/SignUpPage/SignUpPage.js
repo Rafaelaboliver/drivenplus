@@ -19,7 +19,6 @@ export default function SignUpPage() {
         const promise = axios.post(URL, body);
         promise.then((res) => {
             alert('Cadastro realizado com sucesso!');
-            console.log(res.data);
             navigate('/');
         });
         promise.catch((err) => {
