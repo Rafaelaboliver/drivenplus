@@ -31,6 +31,7 @@ h1{
     font-family: Roboto;
     font-weight: 700;
     color: #fff;
+    margin-top: 10px;
 }
 `
 export const PlanInformation = styled.div`
@@ -43,9 +44,10 @@ export const Benefits = styled.div`
 display: flex;
 flex-direction: row;
 margin-bottom: 10px;
+margin-top: 10px;
 width:300px;
 ion-icon{
-    width: 12px;
+    width: 16px;
     height: 16px;
     color: #ff4791;
 }
@@ -65,18 +67,21 @@ p{
     font-size: 14px;
     font-weight: 400;
     color: #fff;
+    margin-bottom: 5px;
 }
 `
 export const PriceBox = styled.div`
 display: flex;
 flex-direction: column;
 width:300px;
+margin-top: 10px;
 p{
     font-family: Roboto;
     font-size: 14px;
     font-weight: 400;
     color: #fff;
 }
+
 `
 export const PaymentData = styled.div`
 display: flex;
@@ -98,9 +103,10 @@ flex-direction: row;
 margin-bottom: 10px;
 width:300px;
 ion-icon{
-    width: 12px;
+    width: 16px;
     height: 16px;
     color: #ff4791;
+
 }
 h4{
     font-family: Roboto;
@@ -123,6 +129,7 @@ input{
     background-color: #fff;
     font-size: 14px;
     font-family: Roboto;
+    margin-bottom: 10px;
     ::placeholder{
         color: #7e7e7e;
         font-size: 14px;
@@ -133,7 +140,7 @@ input{
 export const LowerBoxes = styled.div`
 display: flex;
 flex-direction: row;
-margin: 35px auto 0px;
+margin: 0px auto 0px;
 width:300px;
 justify-content: space-between;
 input{
@@ -150,4 +157,9 @@ input{
         font-weight: 400;
     }
 }
+`
+export const Loading = styled.div`
+width: 500px;
+height: 500px;
+margin: auto;
 `

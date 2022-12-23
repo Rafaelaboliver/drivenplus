@@ -24,7 +24,7 @@ margin: 24px auto 0px;
 display: flex;
 flex-direction: column;
 `
-export const PlusSubscription = styled.div`
+export const ScreePlans = styled.div`
 width: 290px;
 height: 180px;
 display: flex;
@@ -33,6 +33,7 @@ align-items: center;
 justify-content: center;
 border-radius: 12px;
 border: 3px solid #7e7e7e;
+margin-top: 15px;
 img{
     width: 140px;
     height: 95px;
@@ -42,47 +43,17 @@ h2{
     font-family: Roboto;
     font-weight: 700;
     color: #fff;
+    margin-left: 10px;
+    margin-top: 40px;
+    margin-left: 20px;
+}
+a{
+    color: black;
+    display: flex;
 }
 `
-export const GoldSubscription = styled.div`
-width: 290px;
-height: 180px;
-display: flex;
-flex-direction: row;
-align-items: center;
-margin-top: 10px;
-justify-content: center;
-border-radius: 12px;
-border: 3px solid #7e7e7e;
-img{
-    width: 140px;
-    height: 95px;
-}
-h2{
-    font-size: 24px;
-    font-family: Roboto;
-    font-weight: 700;
-    color: #fff;
-}
-`
-export const PlatinumSubscription = styled.div`
-width: 290px;
-height: 180px;
-display: flex;
-flex-direction: row;
-align-items: center;
-justify-content: center;
-margin-top: 10px;
-border-radius: 12px;
-border: 3px solid #7e7e7e;
-img{
-    width: 140px;
-    height: 95px;
-}
-h2{
-    font-size: 24px;
-    font-family: Roboto;
-    font-weight: 700;
-    color: #fff;
-}
+export const Loading = styled.div`
+margin: 0 auto;
+width: 800px;
+height: 800px;
 `

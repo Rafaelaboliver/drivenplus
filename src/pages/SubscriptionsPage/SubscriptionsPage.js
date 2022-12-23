@@ -1,9 +1,49 @@
-import { SubscriptionsContainer, Header, PlansContainer, PlusSubscription, GoldSubscription, PlatinumSubscription } from './subscriptionsPageCss';
-import PlusUser from '../../assets/PlusUser.png';
-import GoldUser from '../../assets/GoldUser.png';
-import PlatinumUser from '../../assets/PlatinumUser.png';
+import { SubscriptionsContainer, Header, PlansContainer, ScreePlans, Loading } from './SubscriptionsPageCss';
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
+import { UserInfoContext } from '../../context/UserInfoContext';
+import { Link } from 'react-router-dom';
 
 export default function SubscriptionsPage() {
+    const { token } = useContext(UserInfoContext);
+    const [plansList, setPlansList] = useState(undefined);
+
+    useEffect(() => {
+        getList();
+    }, []);
+
+    function getList() {
+        const URL = 'https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships';
+        const body = {};
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+
+        const promise = axios.get(URL, config, body);
+        promise.then((res) => {
+            console.log(res.data);
+            setPlansList(res.data);
+
+        });
+        promise.catch((err) => {
+            console.log(err.response);
+            const errMessage = (err.response.status);
+            console.log('erro', errMessage);
+
+            /*if (errMessage === 422) {
+                (alert('Sessão expirada, faça login novamente'));
+                navigate('/');
+            };*/
+        });
+    }
+
+    if (plansList === undefined) {
+        return <Loading> <img src='https://uploaddeimagens.com.br/images/001/326/485/original/loading.gif?1520847880' alt='loading' /></Loading>
+    }
+
+
     return (
         <SubscriptionsContainer>
             <Header>
@@ -11,24 +51,24 @@ export default function SubscriptionsPage() {
             </Header>
 
 
-            <PlansContainer>
+            <PlansContainer >
+                {plansList.map(plans => (
 
-                <PlusSubscription>
-                    <img src={PlusUser} alt='Plus Image'/>
-                    <h2>R$39,90</h2>
-                </PlusSubscription>
+                    <ScreePlans key={plans.id}>
 
-                <GoldSubscription>
-                    <img src={GoldUser} alt='Gold Image'/>
-                    <h2>R$69,90</h2>
-                </GoldSubscription>
+                        <Link to={`/subscriptions/${plans.id}`}>
 
-                <PlatinumSubscription>
-                    <img src={PlatinumUser} alt='Platinum Image'/>
-                    <h2>R$99,90</h2>
-                </PlatinumSubscription>
+                            <img src={plans.image} alt='Plus Image' />
+                            <h2>{plans.price}</h2>
 
+                        </Link>
+
+                    </ScreePlans>
+
+                ))}
             </PlansContainer>
+
+
 
         </SubscriptionsContainer>
     )
