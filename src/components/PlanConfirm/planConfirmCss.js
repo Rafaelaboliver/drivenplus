@@ -6,18 +6,17 @@ flex-direction: column;
 margin: auto;
 width: 375px;
 height: 100vh;
-background-color: #000;
-opacity: 0.7;
 `
 export const ExitIcon = styled.div`
-width:375px;
+width:30px;
 height: 30px;
 align-items: center;
+margin-top: 20px;
+margin-left: 320px;
 ion-icon{
-    margin-right: 20px;
-    margin-top: 25px;
     width: 28px;
     height: 25px;
+    color: #fff;
 }
 
 `
@@ -33,7 +32,7 @@ text-align: center;
 justify-content: center;
 p{
     margin: 33px auto 0px;
-    color: #0000;
+    color: #000;
     width: 204px;
     height: 67px;
     font-size: 18px;
@@ -45,6 +44,7 @@ export const ButtonsConfirmation = styled.div`
 width: 200px;
 height: 52px;
 display: flex;
+margin: auto;
 flex-direction: row;
 justify-content: space-between;
 `

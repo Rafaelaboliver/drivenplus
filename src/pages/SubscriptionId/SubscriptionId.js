@@ -1,20 +1,15 @@
 import { SubscriptionUnitContainer, Header, PlanInformation, Logo, Benefits, BenefitsText, PriceBox, PriceBoxHeader, PaymentData, UpperBoxes, LowerBoxes, Loading } from './SubscriptionIdCss';
-import logo from '../../assets/LoginPage.png';
 import { UserInfoContext } from '../../context/UserInfoContext';
 import { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
-
-
-
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import PlanConfirm from '../../components/PlanConfirm/PlanConfirm'
 
 export default function SubscriptionId() {
-    const [name, setName] = useState('');
-    const [cardNumber, setCardNumber] = useState('');
-    const [securityCode, setSecurityCode] = useState('');
-    const [expDate, setExpDate] = useState('');
-    const [planBenefit, setPlanBenefit] = useState(undefined);
-    const { token } = useContext(UserInfoContext);
+  
+    const [displayConfirmation, setDisplayConfirmation] = useState(false);
+    const [displaySubscriptions, setDisplaySubscriptions] = useState(true);
+    const { token, planBenefit, setPlanBenefit, name, setName, cardNumber, setCardNumber, securityCode, setSecurityCode, expDate, setExpDate, membershipId, setMembershipId } = useContext(UserInfoContext);
     const { idPlano } = useParams();
     const navigate = useNavigate();
 
@@ -50,9 +45,17 @@ export default function SubscriptionId() {
         return <Loading> <img src='https://uploaddeimagens.com.br/images/001/326/485/original/loading.gif?1520847880' alt='loading' /></Loading>
     }
 
-    function buyPlan(e) {
+    function confirmationMessage(e) {
         e.preventDefault();
-        const membershipId = planBenefit.id;
+        setDisplaySubscriptions(false);
+        setDisplayConfirmation(true);
+    }
+
+
+
+
+    function buyPlan() {
+        setMembershipId(planBenefit.id);
 
         const URL = 'https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions';
         const body = {
@@ -72,7 +75,7 @@ export default function SubscriptionId() {
         promise.then((res) => {
             console.log(res.data);
             navigate('/home');
-            
+
         });
         promise.catch((err) => {
             console.log(err.response.data);
@@ -83,87 +86,99 @@ export default function SubscriptionId() {
 
     return (
         <SubscriptionUnitContainer>
-            <Link to='/subscriptions'>
-                <Header>
-                    <ion-icon name="arrow-back-outline"></ion-icon>
-                </Header>
-            </Link>
+            {displayConfirmation && (
+                <PlanConfirm
+                    setDisplayConfirmation={setDisplayConfirmation}
+                    setDisplaySubscriptions={setDisplaySubscriptions}
+                    buyPlan={buyPlan}
+                    planBenefit={planBenefit} />
+            )}
 
-            <Logo>
-                <img src={planBenefit.image} />
-                <h1>{planBenefit.name}</h1>
-            </Logo>
+            {displaySubscriptions === true ? (
+                <>
+                    <Link to='/subscriptions'>
+                        <Header>
+                            <ion-icon name="arrow-back-outline"></ion-icon>
+                        </Header>
+                    </Link>
 
-            <PlanInformation>
-                <Benefits>
-                    <ion-icon name="id-card-outline"></ion-icon>
-                    <h4>Benefícios:</h4>
-                </Benefits>
+                    <Logo>
+                        <img src={planBenefit.image} />
+                        <h1>{planBenefit.name}</h1>
+                    </Logo>
+
+                    <PlanInformation>
+                        <Benefits>
+                            <ion-icon name="id-card-outline"></ion-icon>
+                            <h4>Benefícios:</h4>
+                        </Benefits>
 
 
-                <BenefitsText>
-                    <p>1. Brindes exclusivos</p>
-                    <p>2. Materiais bônus de web</p>
-                </BenefitsText>
-
-
-
-                <PriceBox>
-                    <PriceBoxHeader>
-                        <ion-icon name="cash-outline"></ion-icon>
-                        <h4>Preço:</h4>
-                    </PriceBoxHeader>
-                    <p>R${planBenefit.price} cobrados mensalmente</p>
-                </PriceBox>
-            </PlanInformation>
-
+                        <BenefitsText>
+                            <p>1. Brindes exclusivos</p>
+                            <p>2. Materiais bônus de web</p>
+                        </BenefitsText>
 
 
 
+                        <PriceBox>
+                            <PriceBoxHeader>
+                                <ion-icon name="cash-outline"></ion-icon>
+                                <h4>Preço:</h4>
+                            </PriceBoxHeader>
+                            <p>R${planBenefit.price} cobrados mensalmente</p>
+                        </PriceBox>
+                    </PlanInformation>
 
-            <PaymentData>
-                <form onSubmit={buyPlan}>
-                    <UpperBoxes>
-                        <input
-                            id='name'
-                            type='text'
-                            value={name}
-                            placeholder='Nome impresso no cartão'
-                            onChange={e => setName(e.target.value)}
-                            required
-                        />
-                        <input
-                            id='cardNumber'
-                            type='text'
-                            value={cardNumber}
-                            placeholder='Digitos do cartão'
-                            onChange={e => setCardNumber(e.target.value)}
-                            required
-                        />
-                    </UpperBoxes>
 
-                    <LowerBoxes>
-                        <input
-                            id='securityCode'
-                            type='number'
-                            value={securityCode}
-                            placeholder='Código de segurança'
-                            onChange={e => setSecurityCode(e.target.value)}
-                            required
-                        />
-                        <input
-                            id='expDate'
-                            type='text'
-                            value={expDate}
-                            placeholder='Validade'
-                            onChange={e => setExpDate(e.target.value)}
-                            required
-                        />
-                    </LowerBoxes>
 
-                    <button type='submit'>ASSINAR</button>
-                </form>
-            </PaymentData>
+
+
+                    <PaymentData>
+                        <form onSubmit={confirmationMessage}>
+                            <UpperBoxes>
+                                <input
+                                    id='name'
+                                    type='text'
+                                    value={name}
+                                    placeholder='Nome impresso no cartão'
+                                    onChange={e => setName(e.target.value)}
+                                    required
+                                />
+                                <input
+                                    id='cardNumber'
+                                    type='text'
+                                    value={cardNumber}
+                                    placeholder='Digitos do cartão'
+                                    onChange={e => setCardNumber(e.target.value)}
+                                    required
+                                />
+                            </UpperBoxes>
+
+                            <LowerBoxes>
+                                <input
+                                    id='securityCode'
+                                    type='number'
+                                    value={securityCode}
+                                    placeholder='Código de segurança'
+                                    onChange={e => setSecurityCode(e.target.value)}
+                                    required
+                                />
+                                <input
+                                    id='expDate'
+                                    type='text'
+                                    value={expDate}
+                                    placeholder='Validade'
+                                    onChange={e => setExpDate(e.target.value)}
+                                    required
+                                />
+                            </LowerBoxes>
+
+                            <button type='submit'>ASSINAR</button>
+                        </form>
+                    </PaymentData>
+                </>
+            ) : (null)}
 
         </SubscriptionUnitContainer>
     )

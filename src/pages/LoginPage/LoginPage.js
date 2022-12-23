@@ -9,10 +9,10 @@ import { UserInfoContext } from '../../context/UserInfoContext';
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const {setToken} = useContext(UserInfoContext)
+    const { setToken, setMembershipInformation } = useContext(UserInfoContext)
     const navigate = useNavigate();
 
-    function loginDriven (e) {
+    function loginDriven(e) {
         e.preventDefault();
 
         const URL = 'https://mock-api.driven.com.br/api/v4/driven-plus/auth/login';
@@ -23,8 +23,9 @@ export default function LoginPage() {
         promise.then((res) => {
             console.log(res.data);
             setToken(res.data.token);
-            const userData = JSON.stringify(res.data);
+            setMembershipInformation(res.data);
 
+            const userData = JSON.stringify(res.data);
             localStorage.setItem('userData', userData)
 
             if (res.data.membership === null) {
@@ -32,7 +33,7 @@ export default function LoginPage() {
             } else {
                 navigate('/home');
             }
-            
+
         });
         promise.catch((err) => {
             alert(err.response.data.message);

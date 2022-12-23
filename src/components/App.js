@@ -9,23 +9,34 @@ import { UserInfoContext } from '../context/UserInfoContext';
 
 export default function App() {
   const [token, setToken] = useState('');
-  //const navigate = useNavigate();
+  const [membershipInformation, setMembershipInformation] = useState(undefined);
+  const [name, setName] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [securityCode, setSecurityCode] = useState('');
+  const [expDate, setExpDate] = useState('');
+  const [membershipId, setMembershipId] = useState ('');
+  const [planBenefit, setPlanBenefit] = useState(undefined);
 
-  /*useEffect(() => {
+  useEffect(() => {
 
     const loggedInUser = localStorage.getItem('userData');
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser).token
+      setToken(foundUser);
 
     } else {
-      navigate('/');
+      alert('Realize login!')
     }
-  }, []);*/
+  }, []);
 
   return (
 
     <BrowserRouter>
-      <UserInfoContext.Provider value={{token, setToken}}>
+      <UserInfoContext.Provider value={{
+        token, setToken, membershipInformation, setMembershipInformation, name, setName,
+        cardNumber, setCardNumber, securityCode, setSecurityCode, expDate, setExpDate,
+        membershipId, setMembershipId, planBenefit, setPlanBenefit
+        }}>
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
