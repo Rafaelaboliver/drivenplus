@@ -13,7 +13,11 @@ export default function SignUpPage() {
     function createAccount(e) {
         e.preventDefault();
         const URL = 'https://mock-api.driven.com.br/api/v4/driven-plus/auth/sign-up';
-        const body = { email: email, name: name, cpf: cpf, password: password };
+        const body = { 
+            email: email, 
+            name: name, 
+            cpf: cpf, 
+            password: password };
 
 
         const promise = axios.post(URL, body);

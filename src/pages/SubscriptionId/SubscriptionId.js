@@ -1,5 +1,5 @@
 import { SubscriptionUnitContainer, Header, PlanInformation, Logo, Benefits, BenefitsText, PriceBox, PriceBoxHeader, PaymentData, UpperBoxes, LowerBoxes, Loading } from './SubscriptionIdCss';
-import { UserInfoContext } from '../../context/UserInfoContext';
+import UserInfoContext from '../../context/UserInfoContext';
 import { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link, useNavigate } from 'react-router-dom';
@@ -9,7 +9,7 @@ export default function SubscriptionId() {
   
     const [displayConfirmation, setDisplayConfirmation] = useState(false);
     const [displaySubscriptions, setDisplaySubscriptions] = useState(true);
-    const { token, planBenefit, setPlanBenefit, name, setName, cardNumber, setCardNumber, securityCode, setSecurityCode, expDate, setExpDate, membershipId, setMembershipId } = useContext(UserInfoContext);
+    const { token, planBenefit, setPlanBenefit, name, setName, cardNumber, setCardNumber, securityCode, setSecurityCode, expDate, setExpDate, setOrderDetail } = useContext(UserInfoContext);
     const { idPlano } = useParams();
     const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ export default function SubscriptionId() {
 
         const promise = axios.get(URL, config, body);
         promise.then((res) => {
-            console.log(res.data);
+            console.log('PLANBENEFIT', res.data);
             setPlanBenefit(res.data);
 
         });
@@ -55,11 +55,10 @@ export default function SubscriptionId() {
 
 
     function buyPlan() {
-        setMembershipId(planBenefit.id);
 
         const URL = 'https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions';
         const body = {
-            membershipId: membershipId,
+            membershipId: planBenefit.id,
             cardName: name,
             cardNumber: cardNumber,
             securityNumber: securityCode,
@@ -74,7 +73,13 @@ export default function SubscriptionId() {
         const promise = axios.post(URL, body, config);
         promise.then((res) => {
             console.log(res.data);
+            alert('Obrigada pela preferência, desfrute do seu plano!');
             navigate('/home');
+            setOrderDetail(res.data);
+
+            const userOrder = JSON.stringify(res.data);
+            localStorage.setItem('userOrder', userOrder);
+            
 
         });
         promise.catch((err) => {
@@ -82,7 +87,6 @@ export default function SubscriptionId() {
             alert('Verifique seus dados e tente novamente!', err.response.message)
         });
     }
-
 
     return (
         <SubscriptionUnitContainer>

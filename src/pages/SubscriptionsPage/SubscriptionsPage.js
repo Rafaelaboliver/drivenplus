@@ -1,7 +1,7 @@
 import { SubscriptionsContainer, Header, PlansContainer, ScreePlans, Loading } from './SubscriptionsPageCss';
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { UserInfoContext } from '../../context/UserInfoContext';
+import UserInfoContext from '../../context/UserInfoContext';
 import { Link } from 'react-router-dom';
 
 export default function SubscriptionsPage() {
