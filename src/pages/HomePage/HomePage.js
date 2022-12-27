@@ -10,11 +10,6 @@ export default function HomePage() {
     const { token, userInformation, name, cardNumber, securityCode, expDate, orderDetail } = useContext(UserInfoContext);
     const navigate = useNavigate();
    
-
-    console.log('home: userInformation', userInformation);
-    console.log('home: orderDetail', orderDetail);
-
-
     function changePlan() {
         const URL = 'https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions';
         const body = {

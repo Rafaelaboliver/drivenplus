@@ -8,23 +8,23 @@ import { useEffect, useState } from "react";
 import UserInfoContext from '../context/UserInfoContext';
 
 export default function App() {
- 
-  
+
+
   const [name, setName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [securityCode, setSecurityCode] = useState('');
   const [expDate, setExpDate] = useState('');
-  
- 
-    const data = localStorage.getItem('token');
-    const [token, setToken] = useState(data ? JSON.parse(data) : '');
 
-    const user = localStorage.getItem('userInformation');
-    const [userInformation, setUserInformation] = useState(user? JSON.parse(user) : '');
 
-    const order = localStorage.getItem('orderDetail');
-    const [orderDetail, setOrderDetail] = useState(order? JSON.parse(user) : '');
-    
+  const data = localStorage.getItem('token');
+  const [token, setToken] = useState(data ? JSON.parse(data) : '');
+
+  const user = localStorage.getItem('userInformation');
+  const [userInformation, setUserInformation] = useState(user ? JSON.parse(user) : '');
+
+  const order = localStorage.getItem('orderDetail');
+  const [orderDetail, setOrderDetail] = useState(order ? JSON.parse(user) : '');
+
 
   useEffect(() => {
     localStorage.setItem('token', JSON.stringify(token));
@@ -39,8 +39,8 @@ export default function App() {
 
     <BrowserRouter>
       <UserInfoContext.Provider value={{
-        token, setToken, userInformation, setUserInformation, name, setName, cardNumber, setCardNumber, securityCode, 
-        setSecurityCode, expDate, setExpDate, orderDetail, setOrderDetail
+        token, setToken, userInformation, setUserInformation, name, setName, cardNumber, setCardNumber, securityCode, setSecurityCode,
+        expDate, setExpDate, orderDetail, setOrderDetail
       }}>
         <Routes>
           <Route path="/" element={<LoginPage />} />
