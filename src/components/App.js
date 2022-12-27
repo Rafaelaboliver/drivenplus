@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from '../pages/LoginPage/LoginPage'
 import SignUpPage from '../pages/SignUpPage/SignUpPage'
 import SubscriptionsPage from '../pages/SubscriptionsPage/SubscriptionsPage'
@@ -8,39 +8,40 @@ import { useEffect, useState } from "react";
 import UserInfoContext from '../context/UserInfoContext';
 
 export default function App() {
-  const [token, setToken] = useState('');
-  const [userInformation, setUserInformation] = useState(undefined);
+ 
+  
   const [name, setName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [securityCode, setSecurityCode] = useState('');
   const [expDate, setExpDate] = useState('');
-  const [planBenefit, setPlanBenefit] = useState(undefined);
-  const [orderDetail, setOrderDetail] = useState('');
-
-
-  useEffect(() => {
+  
+ 
     const data = localStorage.getItem('token');
-    //const order = localStorage.getItem('orderInfo');
+    const [token, setToken] = useState(data ? JSON.parse(data) : '');
 
-    if(data){
-      setToken(JSON.parse(data));
-      //setOrderDetail(JSON.parse(order));
-    }
-  }, []);
+    const user = localStorage.getItem('userInformation');
+    const [userInformation, setUserInformation] = useState(user? JSON.parse(user) : '');
+
+    const order = localStorage.getItem('orderDetail');
+    const [orderDetail, setOrderDetail] = useState(order? JSON.parse(user) : '');
+    
 
   useEffect(() => {
     localStorage.setItem('token', JSON.stringify(token));
     localStorage.setItem('orderDetail', JSON.stringify(orderDetail));
+    localStorage.setItem('userInformation', JSON.stringify(userInformation));
   })
+
+
+
 
   return (
 
     <BrowserRouter>
       <UserInfoContext.Provider value={{
-        token, setToken, userInformation, setUserInformation, name, setName,
-        cardNumber, setCardNumber, securityCode, setSecurityCode, expDate, setExpDate,
-         planBenefit, setPlanBenefit, orderDetail, setOrderDetail
-        }}>
+        token, setToken, userInformation, setUserInformation, name, setName, cardNumber, setCardNumber, securityCode, 
+        setSecurityCode, expDate, setExpDate, orderDetail, setOrderDetail
+      }}>
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />

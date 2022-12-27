@@ -3,19 +3,22 @@ import UserInfoContext from '../../context/UserInfoContext';
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import userEvent from "@testing-library/user-event";
 
 
 export default function HomePage() {
-    const { token, userInformation, name, cardNumber, securityCode, expDate, orderDetail, setOrderDetail } = useContext(UserInfoContext);
+    const { token, userInformation, name, cardNumber, securityCode, expDate, orderDetail } = useContext(UserInfoContext);
     const navigate = useNavigate();
+   
 
-    console.log('order detail home', orderDetail);
+    console.log('home: userInformation', userInformation);
+    console.log('home: orderDetail', orderDetail);
 
 
     function changePlan() {
         const URL = 'https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions';
         const body = {
-            membershipId: orderDetail.id,
+            membershipId: userInformation.membership.id,
             cardName: name,
             cardNumber: cardNumber,
             securityNumber: securityCode,
@@ -56,7 +59,6 @@ export default function HomePage() {
             if (success === 204) {
                 alert('Plano cancelado com sucesso!');
                 navigate('/subscriptions');
-                setOrderDetail('');
 
             }
 
@@ -72,7 +74,7 @@ export default function HomePage() {
             
                     <Header>
                         <LogoImg>
-                            <img src={orderDetail.membership.image} alt='Logo Image' />
+                            <img src={userInformation.membership.image} alt='Logo Image' />
                         </LogoImg>
                         <UserImg>
                             <img src='https://static.vecteezy.com/ti/vetor-gratis/t2/550980-de-icone-de-usuario-gratis-vetor.jpg' alt='User Image' />
@@ -80,9 +82,9 @@ export default function HomePage() {
                     </Header>
 
                     <WelcomeBox>
-                        <p>Olá, {userInformation.name}</p>
+                        <p>Olá, {!userInformation.name ? name : userInformation.name}</p>
 
-                        {orderDetail.membership.perks.map(p => (
+                        {userInformation.membership.perks.map(p => (
 
                             <Link key={p.id} to={p.link}>
                                 <button>{p.title}</button>

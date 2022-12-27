@@ -4,14 +4,18 @@ import { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import PlanConfirm from '../../components/PlanConfirm/PlanConfirm'
+import HomePage from '../HomePage/HomePage';
 
 export default function SubscriptionId() {
   
     const [displayConfirmation, setDisplayConfirmation] = useState(false);
     const [displaySubscriptions, setDisplaySubscriptions] = useState(true);
-    const { token, planBenefit, setPlanBenefit, name, setName, cardNumber, setCardNumber, securityCode, setSecurityCode, expDate, setExpDate, setOrderDetail } = useContext(UserInfoContext);
+    const [planBenefit, setPlanBenefit] = useState(undefined);
+    const { token, name, setName, cardNumber, setCardNumber, securityCode, setSecurityCode, expDate, setExpDate, setOrderDetail, setUserInformation } = useContext(UserInfoContext);
     const { idPlano } = useParams();
     const navigate = useNavigate();
+    
+    
 
     useEffect(() => {
         getDetailedList();
@@ -30,6 +34,7 @@ export default function SubscriptionId() {
         promise.then((res) => {
             console.log('PLANBENEFIT', res.data);
             setPlanBenefit(res.data);
+    
 
         });
         promise.catch((err) => {
@@ -72,11 +77,12 @@ export default function SubscriptionId() {
 
         const promise = axios.post(URL, body, config);
         promise.then((res) => {
-            console.log(res.data);
+            console.log('POST SUBSCRIPTION ID',res.data);
             alert('Obrigada pela preferência, desfrute do seu plano!');
             navigate('/home');
             setOrderDetail(res.data);
-
+            setUserInformation(res.data);
+    
             const userOrder = JSON.stringify(res.data);
             localStorage.setItem('userOrder', userOrder);
             
